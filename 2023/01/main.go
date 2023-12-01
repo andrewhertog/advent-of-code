@@ -31,15 +31,17 @@ func processInput(input string) []int {
 	res := strings.Split(input, "\n")
 	var final []int
 	for _, v := range res {
-		digits := findDigits(v)
-		fmt.Println(getFirst(digits))
-		fmt.Println(getLast(digits))
-		val, err := strconv.Atoi(fmt.Sprintf("%v%v", getFirst(digits), getLast(digits)))
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+		if len(v) != 0 {
+			digits := convStringtoInt(v)
+			number := fmt.Sprintf("%v%v", getFirst(digits), getLast(digits))
+			fmt.Printf("%v - %v - %v\n", v, digits, number)
+			val, err := strconv.Atoi(number)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+			final = append(final, val)
 		}
-		final = append(final, val)
 	}
 	return final
 }
@@ -64,4 +66,23 @@ func sum(i []int) int {
 		val += v
 	}
 	return val
+}
+
+func convStringtoInt(input string) []string {
+	numbers := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
+	ints := []string{"1", "2", "3", "4", "5", "6", "7", "8", "9"}
+	var new []string
+	for k, _ := range input {
+		for kk, vv := range numbers {
+			if strings.Index(input[k:len(input)], vv) == 0 {
+				new = append(new, ints[kk])
+			}
+		}
+		for kk, vv := range ints {
+			if strings.Index(input[k:len(input)], vv) == 0 {
+				new = append(new, ints[kk])
+			}
+		}
+	}
+	return new
 }
